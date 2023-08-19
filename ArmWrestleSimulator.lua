@@ -1,3 +1,53 @@
+--[[
+Sorry, it takes a long time
+]]
+
+--[[
+--[[local args = {
+           [1] = _G.Egg,
+           [2] = {
+              ["Fox"] = rare.fox,
+              ["Slime"] = legendary.slime,
+              ["Bear"] = legendary.bear,
+              ["Deer"] = uncommon.deer,
+              ["Squirrel"] = common.squirrel,
+              ["WaterMage"] = mythical.watermage,
+              ["GrassMage"] = legendary.grassmage,
+              ["Spooky"] = unknown.spooky,
+              ["MagicMage"] = unknown.magicmage,
+              ["Monkey"] = legendary.monkey,
+              ["Parrot"] = uncommon.parot,
+              ["Tiger"] = legendary.tiger,
+              ["Elephant"] = mythical.elephant,
+              ["Cat"] = common.cat,
+              ["Dog"] = uncommon.dog,
+              ["Cow"] = uncommon.cow,
+              ["Mouse"] = legendary.mouse,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              [""] = ,
+              
+          }
+      }
+
+      game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.EggService.RF.purchaseEgg:InvokeServer(_G.Egg,{})
+]]
+
 _G.Lib = loadstring(game:HttpGet"https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/Vape.txt")()
 
 _G.Win = _G.Lib:Window("Yiffy Hub | Arm Wrestle Simulator",Color3.fromRGB(44, 120, 224), Enum.KeyCode.RightControl)
@@ -27,8 +77,8 @@ function PlayerProxy(playername)
     local T5 = _G.Win:Tab("Teleports")
     local T6 = _G.Win:Tab("Boosts")
     local T7 = _G.Win:Tab("Events")
-    
 
+    T4:Label("New Feature! | Open the egg, and choose what you want for deletion.")
     local Event_A3 = T7:Label("Event Eggs available #EGG_ERROR")
 -- Event_A3:Set("","Event Eggs available")
 
