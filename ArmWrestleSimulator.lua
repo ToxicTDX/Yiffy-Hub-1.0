@@ -2,84 +2,115 @@
 Sorry, it takes a long time
 ]]
 
---[[
---[[local args = {
-           [1] = _G.Egg,
-           [2] = {
-              ["Fox"] = rare.fox,
-              ["Slime"] = legendary.slime,
-              ["Bear"] = legendary.bear,
-              ["Deer"] = uncommon.deer,
-              ["Squirrel"] = common.squirrel,
-              ["WaterMage"] = mythical.watermage,
-              ["GrassMage"] = legendary.grassmage,
-              ["Spooky"] = unknown.spooky,
-              ["MagicMage"] = unknown.magicmage,
-              ["Monkey"] = legendary.monkey,
-              ["Parrot"] = uncommon.parot,
-              ["Tiger"] = legendary.tiger,
-              ["Elephant"] = mythical.elephant,
-              ["Cat"] = common.cat,
-              ["Dog"] = uncommon.dog,
-              ["Cow"] = uncommon.cow,
-              ["Mouse"] = legendary.mouse,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              
-          }
-      }
+local DeleteFuckingPet = nil
+local mt = getrawmetatable(game);
+setreadonly(mt,false)
+local namecall = mt.__namecall
 
-      game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.EggService.RF.purchaseEgg:InvokeServer(_G.Egg,{})
-]]
+mt.__namecall = newcclosure(function(self, ...)
+	local Method = getnamecallmethod()
+	local Args = {...}
 
-_G.Lib = loadstring(game:HttpGet"https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/Vape.txt")()
+	if Method == 'InvokeServer' and self.Name == 'purchaseEgg' then
+DeleteFuckingPet = Args[2]
+end
+	return namecall(self, ...) 
+end)
 
-_G.Win = _G.Lib:Window("Yiffy Hub | Arm Wrestle Simulator",Color3.fromRGB(44, 120, 224), Enum.KeyCode.RightControl)
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+local Window = OrionLib:MakeWindow({Name = "Yiffy Hub | Arm Wrestle Simulator", HidePremium = false, SaveConfig = true, IntroText = "Yiffy Hub", ConfigFolder = "YiifArmWrestle"})
 local TweenService = game:GetService("TweenService")
 
--- Tabs
-local T1 = _G.Win:Tab("Farming")
-local T2 = _G.Win:Tab("Punching")
+local T1 = Window:MakeTab({
+Name = "Farming",
+Icon = "rbxassetid://7733799901",
+PremiumOnly = false
+})
 
+local T2 = Window:MakeTab({
+Name = "Punching",
+Icon = "rbxassetid://7733955740",
+PremiumOnly = false
+})
 
 function PlayerProxy(playername)
-    if playername == "all" then
-    for _,v in pairs(game.Players:GetPlayers()) do
-         return v.Name
+if playername == "all" then
+for _,v in pairs(game.Players:GetPlayers()) do
+     return v.Name
+end
+else
+for i,v in pairs(game.Players:GetChildren()) do
+    if (string.sub(string.lower(v.Name),1,string.len(playername))) == string.lower(playername) then
+      return v.Name
     end
-    else
-    for i,v in pairs(game.Players:GetChildren()) do
-        if (string.sub(string.lower(v.Name),1,string.len(playername))) == string.lower(playername) then
-          return v.Name
-        end
-     end
-    end
-    end
--- Tabs 2
-    local T3 = _G.Win:Tab("Wrestling")
-    local T4 = _G.Win:Tab("Eggs & Pets")
-    local T5 = _G.Win:Tab("Teleports")
-    local T6 = _G.Win:Tab("Boosts")
-    local T7 = _G.Win:Tab("Events")
+ end
+end
+end
 
-    T4:Label("New Feature! | Open the egg, and choose what you want for deletion.")
-    local Event_A3 = T7:Label("Event Eggs available #EGG_ERROR")
+local T3 = Window:MakeTab({
+Name = "Wrestling",
+Icon = "rbxassetid://7743871002",
+PremiumOnly = false
+})
+
+local S3 = T3:AddSection({
+     Name = "Select Zone / Map"
+})
+
+local S1 = T3:AddSection({
+     Name = "Vs Bots"
+})
+
+local S2 = T3:AddSection({
+     Name = "Vs Players"
+})
+
+local T4 = Window:MakeTab({
+Name = "Eggs & Pets",
+Icon = "rbxassetid://8997385940",
+PremiumOnly = false
+})
+
+T4:AddParagraph("New Feature!","open the egg and choose the pet you want to choose for deletion")
+
+--local S4 = T4:AddSection({
+--     Name = "Golden (Use Private Server)"
+--})
+
+--local Detection_A1 = S4:AddParagraph("Pet detection (in workspace)","#PET_DETECTION_ERROR")
+
+--local S5 = T4:AddSection({
+--     Name = "Craft (Use Private Server)"
+--})
+
+--local Detection_A2 = S5:AddParagraph("Pet detection (in workspace)","#PET_DETECTION_ERROR")
+
+local T5 = Window:MakeTab({
+Name = "Teleport",
+Icon = "rbxassetid://7734021047",
+PremiumOnly = false
+})
+
+local T6 = Window:MakeTab({
+Name = "Boost",
+Icon = "rbxassetid://7733720483",
+PremiumOnly = false
+})
+
+local T7 = Window:MakeTab({
+Name = "Event",
+Icon = "rbxassetid://7733946818",
+PremiumOnly = false
+})
+
+local T8 = Window:MakeTab({
+Name = "Codes",
+Icon = "rbxassetid://7743871575",
+PremiumOnly = false
+})
+
+local Event_A3 = T7:AddParagraph("Event Eggs available","#EGG_ERROR")
 -- Event_A3:Set("","Event Eggs available")
 
 local workspace = game:GetService("Workspace")
@@ -131,43 +162,66 @@ function TPType(type,pos)
      end
 end
 
-
 function CreateDialogue(title,desc)
-    _G.Lib:Notification(title, desc)
-    end
-
-
-
-
+OrionLib:MakeNotification({
+   Name = title,
+   Content = desc,
+   Image = "rbxassetid://0",
+   Time = 5
+  })
+end
 
 local treadmill = {
-    Tier = "Tier1",
-    Number = "1"
+      Tier = "Tier1",
+      Number = "1"
 }
 
-T6:Dropdown("Select Boosts",{"Wins","Luck","Golden","Void"}, function(Value)
-    _G.BoostPoison = Value
-    end)
+T6:AddDropdown({
+   Name = "Select Boost",
+   Default = "Wins",
+   Options = {"Wins","Luck","Golden","Void"},
+   Callback = function(Value)
+     _G.BoostPoison = Value
+  end    
+})
 
-
-    T2:Dropdown("Select Zones", zone, function(Value)
-        _G.zone_2 = Value
+T2:AddDropdown({
+   Name = "Select Zone",
+   Default = "1",
+   Options = zone,
+   Callback = function(Value)
+     _G.zone_2 = Value
     treadmill.Number = Value
-        end)
+  end    
+})
 
-        T3:Dropdown("Select Zones", zone, function(Value)
-            _G.zone_3 = Value
-            end)
+S3:AddDropdown({
+   Name = "Select Zone",
+   Default = "1",
+   Options = zone,
+   Callback = function(Value)
+     _G.zone_3 = Value
+  end    
+})
 
-            T5:Dropdown("Select Zones", zone, function(Value)
-                _G.zone_TP = Value
-                end)
+T5:AddDropdown({
+   Name = "Select Zone",
+   Default = "1",
+   Options = zone,
+   Callback = function(Value)
+     _G.zone_TP = Value
+  end    
+})
 
-                T5:Dropdown("Select Teleportation Type", {"teleport","tween"}, function(Value)
-                    _G.TP_TYPE = Value
-                    end)
-
-                    --[[
+T5:AddDropdown({
+   Name = "Select the teleport type",
+   Default = "teleport",
+   Options = {"teleport","tween"},
+   Callback = function(Value)
+     _G.TP_TYPE = Value
+  end    
+})
+--[[
 T6:AddButton({ -- fake API, THE ORIGINAL API IS IN THE UI
   Name = "Infinite Biceps / dumbells [ Patched ]",
   Callback = function()
@@ -197,8 +251,27 @@ T6:AddButton({ -- fake API, THE ORIGINAL API IS IN THE UI
 })
 --]]
 
-T5:Button("Teleport!", function()
-    if _G.zone_TP == "1" then
+T8:AddButton({
+  Name = "Redeem all codes",
+  Callback = function()
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.CodeRedemptionService.RE.onRedeem:FireServer("noob")
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.CodeRedemptionService.RE.onRedeem:FireServer("WEDNESDAY")
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.CodeRedemptionService.RE.onRedeem:FireServer("FIXED")
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.CodeRedemptionService.RE.onRedeem:FireServer("200m")
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.CodeRedemptionService.RE.onRedeem:FireServer("enchant")
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.CodeRedemptionService.RE.onRedeem:FireServer("Leagues")
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.CodeRedemptionService.RE.onRedeem:FireServer("pinksandcastle")
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.CodeRedemptionService.RE.onRedeem:FireServer("secret")
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.CodeRedemptionService.RE.onRedeem:FireServer("gullible")
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.CodeRedemptionService.RE.onRedeem:FireServer("knighty")
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.CodeRedemptionService.RE.onRedeem:FireServer("axel")
+end
+})
+
+T5:AddButton({
+  Name = "Teleport",
+  Callback = function()
+     if _G.zone_TP == "1" then
         TPType(_G.TP_TYPE,CFrame.new(-10326,4,34))
     end
      if _G.zone_TP == "2" then
@@ -210,70 +283,111 @@ T5:Button("Teleport!", function()
      if _G.zone_TP == "4" then
         TPType(_G.TP_TYPE,CFrame.new(-10274,4,-817))
      end
-    end)
+     if _G.zone_TP == "5" then
+        TPType(_G.TP_TYPE,CFrame.new(-10305,-4,-1417))
+      end
+  end    
+})
 
-    T2:Dropdown("Select Punching Tier", {"Tier1","Tier2","Tier3","Tier4","Tier5","Tier6"}, function(Value)
-        treadmill.Tier = Value
-        end)
+T2:AddDropdown({
+  Name = "Select Punch Tier",
+  Default = "Tier1",
+  Options = {"Tier1","Tier2","Tier3","Tier4","Tier5","Tier6"},
+  Callback = function(Value)
+    treadmill.Tier = Value
+  end    
+})
 
-        T2:Toggle("Auto Punch",false, function(Value)
-            _G.Tm = Value
-            while wait() do
-              if _G.Tm == false then break end
-                 game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.PunchBagService.RE.onGiveStats:FireServer(treadmill.Number,treadmill.Tier)
-              end
-            end)
+T2:AddToggle({
+  Name = "Auto Punch",
+  Default = false,
+  Callback = function(Value)
+  _G.Tm = Value
+    while wait() do
+      if _G.Tm == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.PunchBagService.RE.onGiveStats:FireServer(treadmill.Number,treadmill.Tier)
+      end
+  end    
+})
 
-            T3:Dropdown("Select NPC", npc, function(Value)
-                _G.AI = Value
-                end)
+S1:AddDropdown({
+   Name = "Select NPC",
+   Default = "Bully",
+   Options = npc,
+   Callback = function(Value)
+     _G.AI = Value
+   end    
+})
 
+S1:AddToggle({
+  Name = "Auto Wrestle",
+  Default = false,
+  Callback = function(Value)
+  _G.JoinW = Value
+    while wait() do
+      if _G.JoinW == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onEnterNPCTable:FireServer(_G.AI,workspace.Zones[_G.zone_3].Interactables.ArmWrestling.NPC[_G.AI],_G.zone_3)
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onClickRequest:FireServer()
+      end
+  end    
+})
+--[[
+S1:AddToggle({
+  Name = "Auto Click",
+  Default = false,
+  Callback = function(Value)
+  _G.ClickW = Value
+    while wait() do
+      if _G.ClickW == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onClickRequest:FireServer()
+      end
+  end    
+})]]
 
-                T3:Toggle("Auto Wrestle",false, function(Value)
-                    _G.JoinW = Value
-                    while wait() do
-                      if _G.JoinW == false then break end
-                         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onEnterNPCTable:FireServer(_G.AI,workspace.Zones[_G.zone_3].Interactables.ArmWrestling.NPC[_G.AI],_G.zone_3)
-                      end
-                    end)
+S2:AddDropdown({
+   Name = "Select Table",
+   Default = "ArmWrestleTable1",
+   Options = VSPLAYER,
+   Callback = function(Value)
+     _G.TABLE_VSPLAYER = Value
+   end    
+})
 
+S2:AddToggle({
+  Name = "Auto Enter Table",
+  Default = false,
+  Callback = function(Value)
+  _G.ENTERTABLE = Value
+    while wait() do
+      if _G.ENTERTABLE == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onEnterTable:FireServer(workspace.Zones[_G.zone_3].Interactables.ArmWrestling.PVP[_G.TABLE_VSPLAYER])
+      end
+  end    
+})
 
-            T3:Toggle("Auto Click",false, function(Value)
-                _G.ClickW = Value
-                while wait() do
-                  if _G.ClickW == false then break end
-                     game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onClickRequest:FireServer()
-                  end
-                end)
+S2:AddToggle({
+  Name = "Auto Click",
+  Default = false,
+  Callback = function(Value)
+  _G.CLICKVSPLAYER = Value
+    while wait() do
+      if _G.CLICKVSPLAYER == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onClickRequest:FireServer()
+      end
+  end    
+})
 
-                T3:Dropdown("Select NPC", VSPLAYER, function(Value)
-                    _G.TABLE_VSPLAYER = Value
-                    end)
+local dislist = {"=[ Zone 1 ]=","Earth","Icy","Blackhole","Lava","=[ Zone 2 ]=","Molten","Crystal","Solar","Ice","Burning","Moon","=[ Zone 3 ]=","Coconut","Palm","Treasure","Poseidon","KingFish","Clam","=[ Zone 4 ]=","Rust","Widget","Atom","Nuclear","Mutant","Iridescent","=[ Zone 5 ]=","TRex","Herbivore","Pterodactyl","Gem","DinoFossil","Mystic","=[ Limited Egg ]=","Limited"}
 
-                    T3:Toggle("Automatically Enter Tables",false, function(Value)
-                        _G.ENTERTABLE = Value
-                        while wait() do
-                          if _G.ENTERTABLE == false then break end
-                             game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onEnterTable:FireServer(workspace.Zones[_G.zone_3].Interactables.ArmWrestling.PVP[_G.TABLE_VSPLAYER])
-                          end
-                        end)
-
-                        T3:Toggle("Auto Click (Players)",false, function(Value)
-                            _G.CLICKVSPLAYER = Value
-                            while wait() do
-                                if _G.CLICKVSPLAYER == false then break end
-                                    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onClickRequest:FireServer()
-                                end
-                            end)
-
-                            local dislist = {"=[ Zone 1 ]=","Earth","Icy","Blackhole","Lava","=[ Zone 2 ]=","Molten","Crystal","Solar","Ice","Burning","Moon","=[ Zone 3 ]=","Coconut","Palm","Treasure","Poseidon","KingFish","Clam"}
-
-                            T4:Dropdown("Select Eggs", dislist, function(Value)
-                                _G.Egg = Value
-                                end)
-
-
-                                --[[
+T4:AddDropdown({
+   Name = "Select EGG",
+   Default = "Earth",
+   Options = dislist,
+   Callback = function(Value)
+     _G.Egg = Value
+   end    
+})
+--[[
 local common = {
       mouse = false,
       squirrel = false,
@@ -375,13 +489,14 @@ T4:AddToggle({
   end    
 })
 --]]
-
-T4:Toggle("Auto Hatch",false, function(Value)
-    _G.CLICKVSPLAYER = Value
-    _G.Balls = Value
+T4:AddToggle({
+  Name = "Auto Hatch",
+  Default = false,
+  Callback = function(Value)
+  _G.Balls = Value
     while wait() do
       if _G.Balls == false then break end
-       --[[local args = {
+         --[[local args = {
            [1] = _G.Egg,
            [2] = {
               ["Fox"] = rare.fox,
@@ -423,44 +538,51 @@ T4:Toggle("Auto Hatch",false, function(Value)
           }
       }
 --]]
-game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.EggService.RF.purchaseEgg:InvokeServer(_G.Egg,{})
-    end
-end)
+      game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.EggService.RF.purchaseEgg:InvokeServer(_G.Egg,DeleteFuckingPet)
+      end
+  end    
+})
 
-T4:Toggle("Auto Gold (Use Private Servers)",false, function(Value)
-    _G.GoldPet = Value
+T4:AddToggle({
+  Name = "Auto Gold",
+  Default = false,
+  Callback = function(Value)
+  _G.GoldPet = Value
     while wait() do
       if _G.GoldPet == false then break end
         local PatchGold = petIndex[math.random(1, #petIndex)]
         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.PetService.RF.goldify:InvokeServer({PatchGold,PatchGold,PatchGold,PatchGold,PatchGold})
      end
-    end)
+  end    
+})
 
-
-T4:Toggle("Auto Craft (Use Private Servers)",false, function(Value)
+T4:AddToggle({
+  Name = "Auto Craft",
+  Default = false,
+  Callback = function(Value)
   _G.Crafter = Value
     while wait() do
       if _G.Crafter == false then break end
         local MasterCraft = petIndex[math.random(1, #petIndex)]
         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.PetService.RF.craft:InvokeServer(MasterCraft,true)
       end
-    end)
-
+  end    
+})
 --]]
-
-T4:Toggle("Always Equip Best",false, function(Value)
+T4:AddToggle({
+  Name = "Auto Equip Best",
+  Default = false,
+  Callback = function(Value)
   _G.EB = Value
     while wait() do
       if _G.EB == false then break end
          game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.PetService.RF.equipBest:InvokeServer(game:GetService("Players").LocalPlayer)
       end
-    end)
+  end    
+})
 
-
-    local weight = {"1Kg","2Kg","3Kg","4Kg","5Kg","10Kg","15Kg","20Kg","25Kg","50Kg","100Kg","250Kg"}
-
-
-    --[[
+local weight = {"1Kg","2Kg","3Kg","4Kg","5Kg","10Kg","15Kg","20Kg","25Kg","50Kg","100Kg","250Kg"}
+--[[
 T1:AddDropdown({
    Name = "select weight",
    Default = "1Kg",
@@ -471,57 +593,76 @@ T1:AddDropdown({
    end    
 })
 --]]
+T1:AddToggle({
+  Name = "Auto Click",
+  Default = false,
+  Callback = function(Value)
+  _G.Click = Value
+    while wait() do
+      if _G.Click == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ToolService.RE.onClick:FireServer()
+      end
+  end    
+})
 
-T1:Toggle("Auto Click",false, function(Value)
-       _G.Click = Value
-          while wait() do
-         if _G.Click == false then break end
-        game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ToolService.RE.onClick:FireServer()
-    end
-    end)
+T1:AddToggle({
+  Name = "Auto Spin",
+  Default = false,
+  Callback = function(Value)
+  _G.Spin = Value
+    while wait() do
+      if _G.Spin == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.SpinService.RE.onSpinRequest:FireServer()
+      end
+  end    
+})
 
-    T1:Toggle("Auto Spin",false, function(Value)
-      _G.Spin = Value
-      while wait() do
-        if _G.Spin == false then break end
-           game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.SpinService.RE.onSpinRequest:FireServer()
-        end
-   end)
-
-   T1:Toggle("Auto Reb",false, function(Value)
-    _G.Rbr = Value
+T1:AddToggle({
+  Name = "Auto Reb",
+  Default = false,
+  Callback = function(Value)
+  _G.Rbr = Value
     while wait() do
       if _G.Rbr == false then break end
          game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.RebirthService.RE.onRebirthRequest:FireServer()
       end
- end)
+  end    
+})
 
- T1:Toggle("Auto Claim Gifts",false, function(Value)
+T1:AddToggle({
+  Name = "Auto Claim Gift",
+  Default = false,
+  Callback = function(Value)
   _G.Gift = Value
-  while wait() do
-    if _G.Gift == false then break end
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("1")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("2")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("3")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("4")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("5")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("6")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("7")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("8")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("9")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("10")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("11")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("12")
-    end
-end)
+    while wait() do
+      if _G.Gift == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("1")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("2")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("3")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("4")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("5")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("6")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("7")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("8")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("9")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("10")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("11")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TimedRewardService.RE.onClaim:FireServer("12")
+      end
+  end    
+})
 
-T1:Toggle("Spam Trades",false, function(Value)
-  _G.SpamTrade = Value
-  while wait() do
-    if _G.SpamTrade == false then break end
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.TradingService.RF.sendTradeRequest:InvokeServer(game:GetService("Players")[PlayerProxy("all")])
-    end
-end)
+T1:AddToggle({
+  Name = "Spin lucky draw [Blueprint]",
+  Default = false,
+  Callback = function(Value)
+  _G.blueprint = Value
+    while wait() do
+      if _G.blueprint == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BlueprintService.RF.LuckyDraw:InvokeServer(false)
+      end
+  end    
+})
 
 --[[
 T1:AddToggle({
@@ -553,24 +694,32 @@ T1:AddToggle({
 })
 --]]
 
-T6:Toggle("Use Selected Boost",false, function(Value)
+T6:AddToggle({
+  Name = "Use Selected Boost",
+  Default = false,
+  Callback = function(Value)
   _G.UseBoost = Value
-  while wait() do
-    if _G.UseBoost == false then break end
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BoostService.RE.useBoost:FireServer(_G.BoostPoison)
-    end
-end)
+    while wait() do
+      if _G.UseBoost == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BoostService.RE.useBoost:FireServer(_G.BoostPoison)
+      end
+  end    
+})
 
-T6:Toggle("Use All Boosts",false, function(Value)
+T6:AddToggle({
+  Name = "Use All Boost",
+  Default = false,
+  Callback = function(Value)
   _G.UseAllBoost = Value
-  while wait() do
-    if _G.UseAllBoost == false then break end
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BoostService.RE.useBoost:FireServer("Luck")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BoostService.RE.useBoost:FireServer("Golden")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BoostService.RE.useBoost:FireServer("Void")
-       game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BoostService.RE.useBoost:FireServer("Wins")
-    end
-end)
+    while wait() do
+      if _G.UseAllBoost == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BoostService.RE.useBoost:FireServer("Luck")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BoostService.RE.useBoost:FireServer("Golden")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BoostService.RE.useBoost:FireServer("Void")
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BoostService.RE.useBoost:FireServer("Wins")
+      end
+  end    
+})
 
 --[[
 World 1: 
@@ -583,12 +732,24 @@ Champion
 
 local EventSpeed = 0
 
-T7:Slider("Farming Speed",0,20,1, function(Value)
-  EventSpeed = tonumber(Value)
-  end)
-
-  T7:Toggle("Farm Zone 2",false, function(Value)
-    _G.Event_AV1 = Value
+T7:AddSlider({
+  Name = "Farm Speed",
+  Min = 0,
+  Max = 20,
+  Default = 5,
+  Color = Color3.fromRGB(255,255,255),
+  Increment = 1,
+  ValueName = "%",
+  Callback = function(Value)
+   EventSpeed = tonumber(Value)
+  end    
+})
+--[[
+T7:AddToggle({
+  Name = "Farm Zone 2",
+  Default = false,
+  Callback = function(Value)
+  _G.Event_AV1 = Value
     while wait() do
       if _G.Event_AV1 == false then break end
          game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onEnterNPCTable:FireServer("ScrapTrader",workspace.Zones["2"].Interactables.ArmWrestling.NPC["ScrapTrader"],2)
@@ -597,42 +758,55 @@ T7:Slider("Farming Speed",0,20,1, function(Value)
          wait(EventSpeed + 2)
          game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onEnterNPCTable:FireServer("SlicerAssassin",workspace.Zones["2"].Interactables.ArmWrestling.NPC["SlicerAssassin"],2)
       end
-  end)
-  
+  end    
+})
 
-  T7:Toggle("Farm Zone 3",false, function(Value)
-    _G.Event_AV1 = Value
+T7:AddToggle({
+  Name = "Farm Zone 3",
+  Default = false,
+  Callback = function(Value)
+  _G.Event_AV1 = Value
     while wait() do
       if _G.Event_AV1 == false then break end
          game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onEnterNPCTable:FireServer("KrakenBoss",workspace.Zones["3"].Interactables.ArmWrestling.NPC["KrakenBoss"],3)
       end
-  end)
-  
-  T7:Toggle("Auto Click",false, function(Value)
-    _G.Event_AV2 = Value
+  end    
+})
+
+T7:AddToggle({
+  Name = "Auto Click",
+  Default = false,
+  Callback = function(Value)
+  _G.Event_AV2 = Value
     while wait() do
       if _G.Event_AV2 == false then break end
          game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmWrestleService.RE.onClickRequest:FireServer()
       end
-  end)
-
-
-  T7:Toggle("Auto Claim Event Eggs",false, function(Value)
-    _G.Event_AV3 = Value
+  end    
+})
+]]
+T7:AddToggle({
+  Name = "Auto Claim Event Egg",
+  Default = false,
+  Callback = function(Value)
+  _G.Event_AV3 = Value
     while wait() do
       if _G.Event_AV3 == false then break end
          game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.EventService.RF.ClaimEgg:InvokeServer()
       end
-  end)
+  end    
+})
 
-  while wait() do
-    Event_A3:Set(tostring(game.Players.LocalPlayer.PlayerGui.GameUI.Menus.Event.Amount.Text),"Event Eggs available")
-    end
-
-    if PetDetect > 3 then
-      Detection_A1:Set("The number of Pets exceeds 3 \nplease go to the private server \nto use this feature.","Pet detection (in workspace)")
-      Detection_A2:Set("The number of Pets exceeds 3 \nplease go to the private server \nto use this feature.","Pet detection (in workspace)")
-      else
-      Detection_A1:Set(tostring(PetDetect) .. " (Private Server)","Pet detection (in workspace)")
-      Detection_A2:Set(tostring(PetDetect) .. " (Private Server)","Pet detection (in workspace)")
-      end
+while wait() do
+if game.Players.LocalPlayer.PlayerGui.GameUI.Menus:FindFirstChild("Event") then
+Event_A3:Set(tostring(game.Players.LocalPlayer.PlayerGui.GameUI.Menus.Event.Amount.Text),"Event Eggs available")
+end
+end
+--[[
+if PetDetect > 3 then
+Detection_A1:Set("The number of Pets exceeds 3 \nplease go to the private server \nto use this feature.","Pet detection (in workspace)")
+Detection_A2:Set("The number of Pets exceeds 3 \nplease go to the private server \nto use this feature.","Pet detection (in workspace)")
+else
+Detection_A1:Set(tostring(PetDetect) .. " (Private Server)","Pet detection (in workspace)")
+Detection_A2:Set(tostring(PetDetect) .. " (Private Server)","Pet detection (in workspace)")
+end]]
