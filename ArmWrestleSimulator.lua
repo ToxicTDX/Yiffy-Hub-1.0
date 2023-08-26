@@ -2,6 +2,41 @@
 Sorry, it takes a long time
 ]]
 
+_G.AutoDeleteWithTable = {
+   Earth = nil,
+   Icy = nil,
+   Blackhole = nil,
+   Lava = nil,
+   Molten = nil,
+   Crystal = nil,
+   Solar = nil,
+   Ice = nil,
+   Burning = nil,
+   Moon = nil,
+   Coconut = nil,
+   Palm = nil,
+   Treasure = nil,
+   Poseidon = nil,
+   KingFish = nil,
+   Clam = nil,
+   Rust = nil,
+   Widget = nil,
+   Atom = nil,
+   Nuclear = nil,
+   Mutant = nil,
+   Iridescent = nil,
+   TRex = nil,
+   Herbivore = nil,
+   Pterodactyl = nil,
+   Gem = nil,
+   DinoFossil = nil,
+   Mystic = nil,
+   Shark = nil,
+   Crab = nil,
+   Jellyfish = nil,
+   Limited = nil
+}
+
 local DeleteFuckingPet = nil
 local mt = getrawmetatable(game);
 setreadonly(mt,false)
@@ -12,25 +47,25 @@ mt.__namecall = newcclosure(function(self, ...)
 	local Args = {...}
 
 	if Method == 'InvokeServer' and self.Name == 'purchaseEgg' then
-DeleteFuckingPet = Args[2]
+        DeleteFuckingPet = Args[2]
 end
 	return namecall(self, ...) 
 end)
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local Window = OrionLib:MakeWindow({Name = "Yiffy Hub | Arm Wrestle Simulator", HidePremium = false, SaveConfig = true, IntroText = "Yiffy Hub", ConfigFolder = "YiifArmWrestle"})
+local Window = OrionLib:MakeWindow({Name = "Zao Hub | Arm Wrestle Simulator", HidePremium = false, SaveConfig = true, IntroText = "Yiffy Hub", ConfigFolder = "ZaoWrestle"})
 local TweenService = game:GetService("TweenService")
 
 local T1 = Window:MakeTab({
-Name = "Farming",
-Icon = "rbxassetid://7733799901",
+Name = "Farm",
+Icon = "rbxassetid://0",
 PremiumOnly = false
 })
 
 local T2 = Window:MakeTab({
-Name = "Punching",
-Icon = "rbxassetid://7733955740",
+Name = "Punch",
+Icon = "rbxassetid://0",
 PremiumOnly = false
 })
 
@@ -48,31 +83,41 @@ for i,v in pairs(game.Players:GetChildren()) do
 end
 end
 
+function FuncBypass(TypeName,toggle)
+if TypeName == "GameplayPaused" then
+if toggle == true then
+	game:GetService("GuiService"):SetGameplayPausedNotificationEnabled(false)
+else
+	game:GetService("GuiService"):SetGameplayPausedNotificationEnabled(true)
+end
+end
+end
+
 local T3 = Window:MakeTab({
-Name = "Wrestling",
-Icon = "rbxassetid://7743871002",
+Name = "Wrestle",
+Icon = "rbxassetid://0",
 PremiumOnly = false
 })
 
 local S3 = T3:AddSection({
-     Name = "Select Zone / Map"
+     Name = "SELECT ZONE / MAP"
 })
 
 local S1 = T3:AddSection({
-     Name = "Vs Bots"
+     Name = "VS BOT"
 })
 
 local S2 = T3:AddSection({
-     Name = "Vs Players"
+     Name = "VS PLAYER"
 })
 
 local T4 = Window:MakeTab({
-Name = "Eggs & Pets",
-Icon = "rbxassetid://8997385940",
+Name = "Egg & Pet",
+Icon = "rbxassetid://0",
 PremiumOnly = false
 })
 
-T4:AddParagraph("New Feature!","open the egg and choose the pet you want to choose for deletion")
+T4:AddParagraph("New Feature","open the egg and choose the pet you want to choose for deletion")
 
 --local S4 = T4:AddSection({
 --     Name = "Golden (Use Private Server)"
@@ -88,25 +133,53 @@ T4:AddParagraph("New Feature!","open the egg and choose the pet you want to choo
 
 local T5 = Window:MakeTab({
 Name = "Teleport",
-Icon = "rbxassetid://7734021047",
+Icon = "rbxassetid://0",
 PremiumOnly = false
+})
+
+local S102 = T5:AddSection({
+     Name = "Teleport V1"
+})
+
+local S103 = T5:AddSection({
+     Name = "Teleport V2"
 })
 
 local T6 = Window:MakeTab({
 Name = "Boost",
-Icon = "rbxassetid://7733720483",
+Icon = "rbxassetid://0",
 PremiumOnly = false
 })
 
 local T7 = Window:MakeTab({
 Name = "Event",
-Icon = "rbxassetid://7733946818",
+Icon = "rbxassetid://0",
 PremiumOnly = false
 })
 
 local T8 = Window:MakeTab({
-Name = "Codes",
-Icon = "rbxassetid://7743871575",
+Name = "Code",
+Icon = "rbxassetid://0",
+PremiumOnly = false
+})
+
+local T9 = Window:MakeTab({
+Name = "Crate",
+Icon = "rbxassetid://0",
+PremiumOnly = false
+})
+
+local S100 = T9:AddSection({
+     Name = "OPEN CRATE"
+})
+
+local S101 = T9:AddSection({
+     Name = "BUY CRATE"
+})
+
+local T10 = Window:MakeTab({
+Name = "Game",
+Icon = "rbxassetid://0",
 PremiumOnly = false
 })
 
@@ -114,11 +187,13 @@ local Event_A3 = T7:AddParagraph("Event Eggs available","#EGG_ERROR")
 -- Event_A3:Set("","Event Eggs available")
 
 local workspace = game:GetService("Workspace")
+local RunService = game:GetService("RunService")
 local npc = {}
 local zone = {}
 local egg = {}
 local VSPLAYER = {}
 local petIndex = {}
+local locationIndex = {}
 function AddTable(Table_V,LocalName)
 for _,v in pairs(Table_V:GetChildren()) do
     table.insert(LocalName,v.Name)
@@ -126,16 +201,29 @@ end
 end
 
 AddTable(workspace.Zones,zone)
-
+--[[
 AddTable(workspace.Zones["1"].Interactables.ArmWrestling.NPC,npc)
 AddTable(workspace.Zones["2"].Interactables.ArmWrestling.NPC,npc)
 AddTable(workspace.Zones["3"].Interactables.ArmWrestling.NPC,npc)
 AddTable(workspace.Zones["4"].Interactables.ArmWrestling.NPC,npc)
+AddTable(workspace.Zones["5"].Interactables.ArmWrestling.NPC,npc)
 AddTable(workspace.Zones["1"].Interactables.ArmWrestling.PVP,VSPLAYER)
 AddTable(workspace.Zones["2"].Interactables.ArmWrestling.PVP,VSPLAYER)
 AddTable(workspace.Zones["3"].Interactables.ArmWrestling.PVP,VSPLAYER)
 AddTable(workspace.Zones["4"].Interactables.ArmWrestling.PVP,VSPLAYER)
+AddTable(workspace.Zones["5"].Interactables.ArmWrestling.PVP,VSPLAYER)
 AddTable(workspace.PetFolder,petIndex)
+--]]
+for i = 1, 5 do
+    AddTable(workspace.Zones[i].Interactables.ArmWrestling.NPC,npc)
+    AddTable(workspace.Zones[i].Interactables.ArmWrestling.PVP,VSPLAYER)
+    --AddTable(workspace.Zones[i].Interactables.Teleports.Locations,locationIndex)
+end
+
+if workspace.Zones:FindFirstChild("AquaEvent") then
+AddTable(workspace.Zones["AquaEvent"].Interactables.ArmWrestling.NPC,npc)
+AddTable(workspace.Zones["AquaEvent"].Interactables.ArmWrestling.PVP,VSPLAYER)
+end
 
 local PetDetect = #petIndex
 
@@ -185,6 +273,59 @@ T6:AddDropdown({
   end    
 })
 
+S100:AddDropdown({
+   Name = "Select Crate",
+   Default = "Rust",
+   Options = {"Rust","Silver","Gold","Diamond"},
+   Callback = function(Value)
+     _G.CrateSkins = Value
+  end    
+})
+
+S101:AddDropdown({
+   Name = "Select Crate",
+   Default = "Rust",
+   Options = {"Rust","Silver","Gold","Diamond"},
+   Callback = function(Value)
+     _G.BuyCrateSkins = Value
+  end    
+})
+
+S101:AddDropdown({
+   Name = "Select Amount",
+   Default = "1",
+   Options = {"1","10","100"},
+   Callback = function(Value)
+     _G.AmountCrate = Value
+  end    
+})
+
+S101:AddButton({
+  Name = "Buy Crate",
+  Callback = function()
+   game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmsService.RF.PurchaseCrates:InvokeServer(tostring(_G.BuyCrateSkins) .. "Crate",_G.AmountCrate)
+end
+})
+
+S100:AddToggle({
+  Name = "Auto Roll Crate",
+  Default = false,
+  Callback = function(Value)
+  _G.RollSelectedCrate = Value
+    while wait() do
+      if _G.RollSelectedCrate == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmsService.RF.RollArmCrateForPlayer:InvokeServer(tostring(_G.CrateSkins) .. "Crate")
+      end
+  end    
+})
+
+S100:AddButton({
+  Name = "Roll All Crates",
+  Callback = function()
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ArmsService.RF.RollAllCratesForPlayer:InvokeServer()
+  end    
+})
+
 T2:AddDropdown({
    Name = "Select Zone",
    Default = "1",
@@ -204,7 +345,7 @@ S3:AddDropdown({
   end    
 })
 
-T5:AddDropdown({
+S102:AddDropdown({
    Name = "Select Zone",
    Default = "1",
    Options = zone,
@@ -213,7 +354,25 @@ T5:AddDropdown({
   end    
 })
 
-T5:AddDropdown({
+--[[S103:AddDropdown({
+   Name = "Select Zone",
+   Default = "1",
+   Options = zone,
+   Callback = function(Value)
+     _G.ZonePrototype = Value
+  end    
+})
+
+S103:AddDropdown({
+   Name = "Select Area",
+   Default = "Beach",
+   Options = locationIndex,
+   Callback = function(Value)
+     _G.AreaPrototype = Value
+  end    
+})]]
+
+S102:AddDropdown({
    Name = "Select the teleport type",
    Default = "teleport",
    Options = {"teleport","tween"},
@@ -268,7 +427,7 @@ T8:AddButton({
 end
 })
 
-T5:AddButton({
+S102:AddButton({
   Name = "Teleport",
   Callback = function()
      if _G.zone_TP == "1" then
@@ -279,6 +438,7 @@ T5:AddButton({
      end
      if _G.zone_TP == "3" then
         TPType(_G.TP_TYPE,CFrame.new(11599,10,-19))
+	game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ZoneService.RE.teleport:FireServer(workspace.Zones["3"].Interactables.Teleports.Locations.Beach)
     end
      if _G.zone_TP == "4" then
         TPType(_G.TP_TYPE,CFrame.new(-10274,4,-817))
@@ -286,8 +446,23 @@ T5:AddButton({
      if _G.zone_TP == "5" then
         TPType(_G.TP_TYPE,CFrame.new(-10305,-4,-1417))
       end
+     if _G.zone_TP == "AquaEvent" then
+        TPType(_G.TP_TYPE,CFrame.new(9500, 12, 125))
+	game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ZoneService.RE.teleport:FireServer(workspace.Zones.AquaEvent.Interactables.Teleports.Locations.Aqua)
+     end
   end    
 })
+
+--[[S103:AddButton({
+  Name = "Teleport",
+  Callback = function()
+  if _G.ZonePrototype == "AquaEvent" or _G.AreaPrototype == "Aqua" then
+     game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ZoneService.RE.teleport:FireServer(workspace.Zones.AquaEvent.Interactables.Teleports.Locations.Aqua)
+  else
+    game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.ZoneService.RE.teleport:FireServer(workspace.Zones[_G.ZonePrototype].Interactables.Teleports.Locations[_G.AreaPrototype])
+ end
+end
+})]]
 
 T2:AddDropdown({
   Name = "Select Punch Tier",
@@ -376,8 +551,43 @@ S2:AddToggle({
       end
   end    
 })
-
-local dislist = {"=[ Zone 1 ]=","Earth","Icy","Blackhole","Lava","=[ Zone 2 ]=","Molten","Crystal","Solar","Ice","Burning","Moon","=[ Zone 3 ]=","Coconut","Palm","Treasure","Poseidon","KingFish","Clam","=[ Zone 4 ]=","Rust","Widget","Atom","Nuclear","Mutant","Iridescent","=[ Zone 5 ]=","TRex","Herbivore","Pterodactyl","Gem","DinoFossil","Mystic","=[ Limited Egg ]=","Limited"}
+--[[
+_G.AutoDeleteWithTable = {
+Earth = nil,
+Icy = nil,
+Blackhole = nil,
+Lava = nil,
+Molten = nil,
+Crystal = nil,
+Solar = nil,
+Ice = nil,
+Burning = nil,
+Moon = nil,
+Coconut = nil,
+Palm = nil,
+Treasure = nil,
+Poseidon = nil,
+KingFish = nil,
+Clam = nil,
+Rust = nil,
+Widget = nil,
+Atom = nil,
+Nuclear = nil,
+Mutant = nil,
+Iridescent = nil,
+TRex = nil,
+Herbivore = nil,
+Pterodactyl = nil,
+Gem = nil,
+DinoFossil = nil,
+Mystic = nil,
+Shark = nil,
+Crab = nil,
+Jellyfish = nil,
+Limited = nil
+}
+]]
+local dislist = {"=[ Zone 1 ]=","Earth","Icy","Blackhole","Lava","=[ Zone 2 ]=","Molten","Crystal","Solar","Ice","Burning","Moon","=[ Zone 3 ]=","Coconut","Palm","Treasure","Poseidon","KingFish","Clam","=[ Zone 4 ]=","Rust","Widget","Atom","Nuclear","Mutant","Iridescent","=[ Zone 5 ]=","TRex","Herbivore","Pterodactyl","Gem","DinoFossil","Mystic","=[ Aqua Event ]=","Shark","Crab","Jellyfish","=[ Limited Egg ]=","[ Has ended ]"}
 
 T4:AddDropdown({
    Name = "Select EGG",
@@ -490,55 +700,18 @@ T4:AddToggle({
 })
 --]]
 T4:AddToggle({
-  Name = "Auto Hatch",
+  Name = "Auto Hatch [Auto Save Deleted Pet List]",
   Default = false,
   Callback = function(Value)
   _G.Balls = Value
     while wait() do
       if _G.Balls == false then break end
-         --[[local args = {
-           [1] = _G.Egg,
-           [2] = {
-              ["Fox"] = rare.fox,
-              ["Slime"] = legendary.slime,
-              ["Bear"] = legendary.bear,
-              ["Deer"] = uncommon.deer,
-              ["Squirrel"] = common.squirrel,
-              ["WaterMage"] = mythical.watermage,
-              ["GrassMage"] = legendary.grassmage,
-              ["Spooky"] = unknown.spooky,
-              ["MagicMage"] = unknown.magicmage,
-              ["Monkey"] = legendary.monkey,
-              ["Parrot"] = uncommon.parot,
-              ["Tiger"] = legendary.tiger,
-              ["Elephant"] = mythical.elephant,
-              ["Cat"] = common.cat,
-              ["Dog"] = uncommon.dog,
-              ["Cow"] = uncommon.cow,
-              ["Mouse"] = legendary.mouse,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              [""] = ,
-              
-          }
-      }
---]]
-      game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.EggService.RF.purchaseEgg:InvokeServer(_G.Egg,DeleteFuckingPet)
+	  if _G.AutoDeleteWithTable[_G.Egg] == nil then
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.EggService.RF.purchaseEgg:InvokeServer(_G.Egg,DeleteFuckingPet)
+	 _G.AutoDeleteWithTable[_G.Egg] = DeleteFuckingPet
+	else
+        game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.EggService.RF.purchaseEgg:InvokeServer(_G.Egg,_G.AutoDeleteWithTable[_G.Egg])
+	end
       end
   end    
 })
@@ -653,7 +826,7 @@ T1:AddToggle({
 })
 
 T1:AddToggle({
-  Name = "Spin lucky draw [Blueprint]",
+  Name = "Auto spin lucky draw [Blueprint]",
   Default = false,
   Callback = function(Value)
   _G.blueprint = Value
@@ -663,6 +836,30 @@ T1:AddToggle({
       end
   end    
 })
+
+T1:AddToggle({
+  Name = "Auto spin daily lucky draw [Blueprint]",
+  Default = false,
+  Callback = function(Value)
+  _G.dailyblueprint = Value
+    while wait() do
+      if _G.dailyblueprint == false then break end
+         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BlueprintService.RF.LuckyDraw:InvokeServer(true)
+      end
+  end    
+})
+
+--T1:AddToggle({
+--  Name = "Auto Claim Daily Login",
+--  Default = false,
+--  Callback = function(Value)
+--  _G.dailylogin = Value
+--    while wait() do
+--      if _G.dailylogin == false then break end
+--         game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.BlueprintService.RF.LuckyDraw:InvokeServer(true)
+--      end
+--  end    
+--})
 
 --[[
 T1:AddToggle({
@@ -731,7 +928,7 @@ Champion
 ]]
 
 local EventSpeed = 0
-
+--[[
 T7:AddSlider({
   Name = "Farm Speed",
   Min = 0,
@@ -785,6 +982,16 @@ T7:AddToggle({
   end    
 })
 ]]
+
+T7:AddDropdown({
+   Name = "Number of previous hatches on eggs",
+   Default = "1",
+   Options = {"1","2","3","8"},
+   Callback = function(Value)
+     _G.AmountPrevEggs = Value
+   end    
+})
+
 T7:AddToggle({
   Name = "Auto Claim Event Egg",
   Default = false,
@@ -797,11 +1004,31 @@ T7:AddToggle({
   end    
 })
 
-while wait() do
+T7:AddToggle({
+  Name = "Auto Hatch Previous Eggs",
+  Default = false,
+  Callback = function(Value)
+  _G.PrevEgg = Value
+    while wait() do
+      if _G.PrevEgg == false then break end
+	game:GetService("ReplicatedStorage").Packages._Index:FindFirstChild("sleitnick_knit@1.4.7").knit.Services.EventService.RF.ClaimEgg:InvokeServer(tonumber(_G.AmountPrevEggs),true)
+    end
+end
+})
+
+T10:AddToggle({
+  Name = "Bypass Gameplay-Paused",
+  Default = false,
+  Callback = function(Value)
+	FuncBypass("GameplayPaused",Value)
+end
+})
+
+RunService.RenderStepped:Connect(function()
 if game.Players.LocalPlayer.PlayerGui.GameUI.Menus:FindFirstChild("Event") then
 Event_A3:Set(tostring(game.Players.LocalPlayer.PlayerGui.GameUI.Menus.Event.Amount.Text),"Event Eggs available")
 end
-end
+end)
 --[[
 if PetDetect > 3 then
 Detection_A1:Set("The number of Pets exceeds 3 \nplease go to the private server \nto use this feature.","Pet detection (in workspace)")
